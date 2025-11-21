@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Sistema digital de apoyo agrícola - UNAD</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6fbf0; --panel:#fff; --earth:#8aa86b; --muted:#556b46; --accent:#5a8a3b;
+  --card-shadow: 0 8px 24px rgba(20,60,20,0.06); --radius:12px;
+}
+*{box-sizing:border-box}
+body{font-family:'Nunito',system-ui,Arial,sans-serif;background:linear-gradient(180deg,#f9fbf8,#f6fbf0);margin:0;color:#163e16}
+.container{max-width:1100px;margin:18px auto;padding:18px;display:grid;grid-template-columns:260px 1fr;gap:16px}
+.sidebar{background:var(--panel);padding:14px;border-radius:var(--radius);box-shadow:var(--card-shadow);min-height:540px}
+.brand{display:flex;gap:10px;align-items:center}
+.brand img{width:52px;height:52px;border-radius:8px;object-fit:cover}
+.brand h2{margin:0;font-size:16px;color:var(--accent)}
+.userinfo{margin-top:10px;font-size:13px;color:var(--muted)}
+.filters{margin-top:16px}
+.filters label{display:block;font-weight:700;color:#215a21;margin-bottom:6px;font-size:13px}
+select,input[type="text"]{width:100%;padding:9px;border-radius:8px;border:1px solid #e6efe6;background:transparent}
+.btn{display:inline-block;padding:9px 12px;border-radius:8px;border:0;background:var(--earth);color:white;font-weight:700;cursor:pointer}
+.btn.ghost{background:transparent;border:2px solid var(--earth);color:var(--earth)}
+.small{font-size:12px;color:var(--muted);margin-top:8px}
+.main{min-height:540px}
+.header{display:flex;justify-content:space-between;align-items:center;background:linear-gradient(90deg,var(--earth),#9ed07a);padding:12px;border-radius:var(--radius);color:white;box-shadow:var(--card-shadow)}
+.header h1{margin:0;font-size:18px}
+.card{background:var(--panel);border-radius:10px;padding:12px;margin-top:12px;box-shadow:var(--card-shadow)}
+.search textarea{width:100%;min-height:96px;padding:10px;border-radius:8px;border:1px solid #eef7ee}
+.actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.results{display:grid;grid-template-columns:1fr 360px;gap:12px;margin-top:12px}
+.list{min-height:220px}
+.list .item{padding:8px;border-bottom:1px solid #f2f7f2;cursor:pointer}
+.detail .gallery{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.detail img{width:110px;height:78px;object-fit:cover;border-radius:6px;border:1px solid #e9f6e9}
+.footer{font-size:12px;color:var(--muted);text-align:center;margin-top:10px}
+.links a{display:block;color:var(--accent);text-decoration:none;margin-top:6px}
+.tip{font-size:13px;color:#2f6b2f;background:#f0fff0;padding:8px;border-radius:8px;margin-top:10px;border:1px solid #e5f6e5}
+@media(max-width:980px){.container{grid-template-columns:1fr;padding:12px}.results{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container" role="application">
+  <aside class="sidebar" aria-label="Panel lateral">
+    <div class="brand">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/1/12/UNAD_logo.svg" alt="UNAD">
+      <div>
+        <h2>UNAD</h2>
+        <div style="font-size:12px;color:var(--muted)">Universidad Nacional Abierta y a Distancia</div>
+      </div>
+    </div>
+
+    <div class="userinfo">
+      <div style="font-weight:700">Carlos Alberto Durán</div>
+      <div class="small">CC 79990318</div>
+    </div>
+
+    <div class="filters">
+      <label for="region">Región</label>
+      <select id="region" aria-label="Seleccionar region">
+        <option value="Andina">Andina</option>
+        <option value="Caribe">Caribe</option>
+        <option value="Pacífica">Pacífica</option>
+        <option value="Orinoquía">Orinoquía</option>
+        <option value="Amazonía">Amazonía</option>
+        <option value="Insular">Insular</option>
+      </select>
+
+      <label for="city" style="margin-top:8px">Ciudad</label>
+      <select id="city" aria-label="Seleccionar ciudad">
+        <option value="Bogotá">Bogotá</option>
+        <option value="Medellín">Medellín</option>
+        <option value="Cali">Cali</option>
+        <option value="Barranquilla">Barranquilla</option>
+        <option value="Pereira">Pereira</option>
+        <option value="Manizales">Manizales</option>
+        <option value="Yopal">Yopal</option>
+        <option value="Leticia">Leticia</option>
+      </select>
+
+      <label for="crop" style="margin-top:8px">Tipo de cultivo</label>
+      <select id="crop" aria-label="Seleccionar cultivo">
+        <option>Flores</option><option>Frutas</option><option>Hortalizas</option><option>Cereales</option><option>Café</option><option>Papa</option><option>Tomate</option>
+      </select>
+
+      <div class="small tip">Selecciona región o ciudad para ver alertas automáticas</div>
+
+      <div style="margin-top:10px;display:flex;gap:8px">
+        <button class="btn" id="btnAlert">Ver alerta</button>
+        <button class="btn ghost" id="btnLibrary">Biblioteca</button>
+      </div>
+
+      <div class="links card" style="margin-top:12px">
+        <strong>Clima en línea</strong>
+        <a href="https://weather.com/es-CO/" target="_blank" rel="noopener">The Weather Channel</a>
+        <a href="https://www.windy.com/" target="_blank" rel="noopener">Windy</a>
+        <a href="https://www.accuweather.com/" target="_blank" rel="noopener">AccuWeather</a>
+      </div>
+    </div>
+
+    <div class="footer">Proyecto UNAD Innova</div>
+  </aside>
+
+  <main class="main">
+    <div class="header">
+      <h1>Sistema Digital de Apoyo Agrícola</h1>
+      <div style="text-align:right;font-size:13px">Asesoría técnica y alertas climáticas</div>
+    </div>
+
+    <section class="card search">
+      <label style="font-weight:700">Describe los síntomas</label>
+      <textarea id="sintomas" placeholder="p ej manchas amarillas polvo blanco hojas marchitas"></textarea>
+      <div class="actions">
+        <button class="btn" id="btnSearch">Buscar</button>
+        <button class="btn ghost" id="btnAdd">+ Añadir</button>
+      </div>
+      <div class="small" style="margin-top:8px">Puedes agregar fotos al añadir una enfermedad</div>
+    </section>
+
+    <div class="results">
+      <div class="list card" id="listCol">
+        <strong>Resultados</strong>
+        <div id="listItems" style="margin-top:8px"></div>
+      </div>
+
+      <aside class="detail card" id="detailCol">
+        <strong>Detalle</strong>
+        <div id="detailContent" style="margin-top:8px">
+          <div class="small">Seleccione un resultado para ver tratamiento e imágenes</div>
+        </div>
+
+        <div style="margin-top:12px" class="card">
+          <strong>Alerta automática</strong>
+          <div id="alertBox" class="small" style="margin-top:8px">Selecciona una región o ciudad y pulsa Ver alerta</div>
+        </div>
+      </aside>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <strong>Administrar biblioteca</strong>
+      <div class="small" style="margin-top:6px">Añadir editar o eliminar enfermedades</div>
+      <div style="margin-top:8px;overflow:auto"><table id="tableLib" style="width:100%;border-collapse:collapse"></table></div>
+    </div>
+
+    <div class="footer">Hecho por Carlos Alberto Durán CC 79990318</div>
+  </main>
+</div>
+
+<!-- modal simple add -->
+<div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);align-items:center;justify-content:center;padding:18px">
+  <div style="background:white;padding:14px;border-radius:10px;max-width:720px;margin:auto">
+    <h3>Añadir enfermedad</h3>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <input id="dname" placeholder="Nombre" style="flex:1;padding:8px;border-radius:8px;border:1px solid #e6efe6">
+      <input id="dtype" placeholder="Tipo cultivo" style="flex:1;padding:8px;border-radius:8px;border:1px solid #e6efe6">
+    </div>
+    <div style="margin-top:8px">
+      <input id="dkeys" placeholder="palabras clave separadas por comas" style="width:100%;padding:8px;border-radius:8px;border:1px solid #e6efe6">
+    </div>
+    <div style="margin-top:8px">
+      <input id="dtreat" placeholder="tratamiento breve" style="width:100%;padding:8px;border-radius:8px;border:1px solid #e6efe6">
+    </div>
+    <div style="margin-top:8px">
+      <input id="dfiles" type="file" accept="image/*" multiple>
+      <div id="preview" style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap"></div>
+    </div>
+    <div style="margin-top:10px;text-align:right">
+      <button class="btn ghost" id="cancelAdd">Cancelar</button>
+      <button class="btn" id="saveAdd">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// initial library with more diseases compact
+const LIB_DEFAULT = {
+  mildiu:{name:"Mildiu",type:"Tomate Papa Vid",keywords:["manchas amarillas","moho gris","mildiu"],treatment:"Fungicidas cobre mancozeb mejorar ventilación",images:[]},
+  oidio:{name:"Oídio",type:"Hortalizas Frutales",keywords:["polvo blanco","polviento","oidio"],treatment:"Azufre en polvo o fungicidas",images:[]},
+  roya:{name:"Roya",type:"Café Trigo Frutales",keywords:["pustulas","manchas naranjas","roya"],treatment:"Retirar hojas aplicar oxicloruro de cobre",images:[]},
+  botritis:{name:"Botritis",type:"Fresas Uvas Tomates",keywords:["podredumbre gris","botritis"],treatment:"Evitar humedad usar fungicida iprodiona",images:[]},
+  tizontardio:{name:"Tizón tardío",type:"Papa Tomate",keywords:["manchas negras","pudricion"],treatment:"Usar variedades resistentes fungicidas preventivos",images:[]},
+  antracnosis:{name:"Antracnosis",type:"Frutas",keywords:["manchas hundidas","antracnosis"],treatment:"Aplicar fungicidas cúpricos eliminar partes afectadas",images:[]},
+  fusariosis:{name:"Fusariosis",type:"Tomate Plátano Melón",keywords:["marchitez","amarillamiento","fusariosis"],treatment:"Rotar cultivos suelos drenados",images:[]},
+  manchanegra:{name:"Mancha negra",type:"Cítricos Rosas",keywords:["mancha negra","manchas circulares"],treatment:"Fungicidas cobre triazoles",images:[]},
+  pudricionrad:{name:"Pudrición radicular",type:"Hortalizas",keywords:["raíces blandas","raices blandas","pudricion"],treatment:"Mejorar drenaje aplicar fosetil",images:[]},
+  virusmosaico:{name:"Virus del mosaico",type:"Tomate Pepino",keywords:["mosaico","manchas verdes amarillas"],treatment:"Eliminar plantas controlar vectores",images:[]},
+  bacteriosis:{name:"Bacteriosis",type:"Tomate Pimiento",keywords:["exudado","manchas oscuras"],treatment:"Desinfectar aplicar cobre",images:[]},
+  monilia:{name:"Monilia",type:"Frutas",keywords:["pudricion parda","frutos secos"],treatment:"Podar ramas aplicar fungicida",images:[]},
+  tizonesmenores:{name:"Tizones menores",type:"Flores",keywords:["necrosis","manchas pequeñas"],treatment:"Eliminar partes afectadas",images:[]}
+};
+
+const STORAGE = "agri_lib_simple_v1";
+let LIB = {};
+
+function loadLib(){ try{ const raw=localStorage.getItem(STORAGE); if(!raw){ LIB=JSON.parse(JSON.stringify(LIB_DEFAULT)); localStorage.setItem(STORAGE,JSON.stringify(LIB)); } else LIB=JSON.parse(raw);}catch(e){LIB=JSON.parse(JSON.stringify(LIB_DEFAULT));} }
+function saveLib(){ localStorage.setItem(STORAGE,JSON.stringify(LIB)); }
+
+function renderTable(){
+  const table = document.getElementById("tableLib"); table.innerHTML = "<tr><th>Enfermedad</th><th>Tipo</th><th>Palabras</th><th></th></tr>";
+  Object.keys(LIB).forEach(k=>{ const d=LIB[k]; const tr=document.createElement("tr"); tr.innerHTML=`<td>${d.name}</td><td>${d.type}</td><td>${d.keywords.join(", ")}</td><td><button data-id='${k}' class='edit'>Editar</button> <button data-id='${k}' class='del'>Eliminar</button></td>`; table.appendChild(tr); });
+  document.querySelectorAll(".edit").forEach(b=>b.onclick=e=>openEdit(b.dataset.id));
+  document.querySelectorAll(".del").forEach(b=>b.onclick=e=>{ if(confirm("Eliminar?")){ delete LIB[b.dataset.id]; saveLib(); renderTable(); renderList(); } });
+}
+
+function renderList(results){
+  const list = document.getElementById("listItems"); list.innerHTML = "";
+  const items = results || Object.keys(LIB).map(k=>({disease:LIB[k],score:1,matches:LIB[k].keywords.slice(0,3)}));
+  items.forEach(r=>{ const d=r.disease; const div=document.createElement("div"); div.className="item"; div.innerHTML=`<strong>${d.name}</strong><div class='small'>${d.type}</div><div class='small'>${(r.matches||[]).join(", ")}</div>`; div.onclick=()=>showDetail(d); list.appendChild(div); });
+}
+
+function showDetail(d){ const box=document.getElementById("detailContent"); box.innerHTML=`<h3>${d.name}</h3><div class='small'>Tipo ${d.type}</div><div style='margin-top:6px'><strong>Tratamiento</strong><div>${d.treatment}</div></div>`; if(d.images && d.images.length){ const gal=document.createElement("div"); gal.className='gallery'; d.images.forEach(u=>{ const img=document.createElement("img"); img.src=u; gal.appendChild(img); }); box.appendChild(gal); } }
+
+function analyze(text){ text=(text||"").toLowerCase(); const tokens=text.split(/\s+/).filter(Boolean); const out=[]; Object.keys(LIB).forEach(k=>{ const d=LIB[k]; let score=0; const matches=[]; (d.keywords||[]).forEach(kw=>{ const nkw=kw.toLowerCase(); if(text.includes(nkw)){ score+=3; matches.push(nkw); } else { nkw.split(/\s+/).forEach(p=>{ if(tokens.includes(p)){ score+=1; matches.push(p); } }); } }); if(score>0) out.push({disease:d,score,matches:Array.from(new Set(matches))}); }); out.sort((a,b)=>b.score-a.score); return out; }
+
+document.getElementById("btnSearch").onclick=()=>{ const txt=document.getElementById("sintomas").value; if(!txt.trim()){ alert("Describe síntomas"); return; } const res=analyze(txt); if(!res.length){ document.getElementById("listItems").innerHTML="<div class='small'>No hay coincidencias</div>"; document.getElementById("detailContent").innerHTML=""; return;} renderList(res); showDetail(res[0].disease); };
+
+// modal add
+const modal=document.getElementById("modal"); document.getElementById("btnAdd").onclick=()=>{ modal.style.display='flex'; document.getElementById("dname").value=''; document.getElementById("dtype").value=''; document.getElementById("dkeys").value=''; document.getElementById("dtreat").value=''; document.getElementById("preview").innerHTML=''; document.getElementById("dfiles").value=''; document.getElementById("saveAdd").dataset.edit=''; };
+document.getElementById("cancelAdd").onclick=()=>modal.style.display='none';
+
+document.getElementById("dfiles").addEventListener("change",e=>{ const files=Array.from(e.target.files).slice(0,6); const prev=document.getElementById("preview"); prev.innerHTML=''; files.forEach(file=>{ const r=new FileReader(); r.onload=ev=>{ const img=document.createElement("img"); img.src=ev.target.result; img.style.width='90px'; img.style.height='60px'; img.style.objectFit='cover'; img.style.borderRadius='6px'; prev.appendChild(img); }; r.readAsDataURL(file); }); });
+
+document.getElementById("saveAdd").onclick=()=>{ const name=document.getElementById("dname").value.trim(); if(!name){ alert("Nombre requerido"); return;} const type=document.getElementById("dtype").value.trim(); const keys=document.getElementById("dkeys").value.split(",").map(s=>s.trim()).filter(Boolean); const treat=document.getElementById("dtreat").value.trim(); const files=document.getElementById("dfiles").files; const id=name.toLowerCase().replace(/\s+/g,'_')+'_'+Math.random().toString(36).slice(2,6); if(files.length){ const readers=Array.from(files).map(f=>new Promise((res,rej)=>{ const r=new FileReader(); r.onload=e=>res(e.target.result); r.onerror=rej; r.readAsDataURL(f); })); Promise.all(readers).then(arr=>{ LIB[id]={name:name,type:type,keywords:keys,treatment:treat,images:arr}; saveLib(); renderTable(); renderList(); modal.style.display='none'; }).catch(err=>{ alert('Error leyendo imágenes'); }); } else { LIB[id]={name:name,type:type,keywords:keys,treatment:treat,images:[]}; saveLib(); renderTable(); renderList(); modal.style.display='none'; } };
+
+function openEdit(key){ const d=LIB[key]; if(!d) return; modal.style.display='flex'; document.getElementById("dname").value=d.name; document.getElementById("dtype").value=d.type; document.getElementById("dkeys").value=d.keywords.join(", "); document.getElementById("dtreat").value=d.treatment; document.getElementById("preview").innerHTML=''; (d.images||[]).forEach(u=>{ const img=document.createElement("img"); img.src=u; img.style.width='90px'; img.style.height='60px'; img.style.objectFit='cover'; img.style.borderRadius='6px'; document.getElementById("preview").appendChild(img); }); document.getElementById("saveAdd").dataset.edit=key; document.getElementById("saveAdd").onclick=()=>{ const name=document.getElementById("dname").value.trim(); if(!name){ alert("Nombre requerido"); return;} const type=document.getElementById("dtype").value.trim(); const keys=document.getElementById("dkeys").value.split(",").map(s=>s.trim()).filter(Boolean); const treat=document.getElementById("dtreat").value.trim(); const files=document.getElementById("dfiles").files; if(files.length){ const readers=Array.from(files).map(f=>new Promise((res,rej)=>{ const r=new FileReader(); r.onload=e=>res(e.target.result); r.onerror=rej; r.readAsDataURL(f); })); Promise.all(readers).then(arr=>{ d.name=name; d.type=type; d.keywords=keys; d.treatment=treat; d.images=(d.images||[]).concat(arr); saveLib(); renderTable(); renderList(); modal.style.display='none'; document.getElementById("saveAdd").onclick=null; }).catch(err=>{ alert('Error leyendo imágenes'); }); } else { d.name=name; d.type=type; d.keywords=keys; d.treatment=treat; saveLib(); renderTable(); renderList(); modal.style.display='none'; document.getElementById("saveAdd").onclick=null; } }; }
+
+// alert messages by region or city
+const ALERTS_REGION = {
+  Andina:"Riesgo de heladas en zonas altas evite siembras sensibles y proteja plántulas",
+  Caribe:"Riesgo de sequía en temporada seca prefiera cultivos resistentes y riego eficiente",
+  Pacífica:"Alta humedad riesgo de hongos mejore drenaje y evite riego por aspersión",
+  Orinoquía:"Variabilidad climática controlar erosión y planificar siembras cortas",
+  Amazonía:"Alta humedad y lluvias frecuentes control fitosanitario por hongos",
+  Insular:"Exposición a vientos y salinidad prefiera variedades resistentes"
+};
+
+const ALERTS_CITY = {
+  Bogotá:"Heladas nocturnas posibles en zonas altas proteja con acolchados",
+  Medellín:"Clima moderado favorable para hortalizas mantenga riego regular",
+  Cali:"Temperaturas altas riesgo de sequía considerar riego por goteo",
+  Barranquilla:"Sequía y calor precaución con riegos y sombra",
+  Pereira:"Temperatura estable buena para papa y hortalizas",
+  Manizales:"Zonas altas riesgo de heladas en invierno proteja cultivos",
+  Yopal:"Clima seco en temporadaspeciar priorice cultivos resistentes",
+  Leticia:"Alta humedad y lluvias frecuente control de hongos y buena ventilación"
+};
+
+document.getElementById("btnAlert").onclick=()=>{
+  const region=document.getElementById("region").value;
+  const city=document.getElementById("city").value;
+  const box=document.getElementById("alertBox");
+  const crop=document.getElementById("crop").value;
+  let msg = ALERTS_CITY[city] || ALERTS_REGION[region] || "Condiciones normales revise enlaces de clima en linea";
+  msg += "<br><strong>Recomendación cultivo</strong> ";
+  if(crop.includes("Flores")) msg += "Evitar siembras en heladas proteger con cobertores";
+  else if(crop.includes("Frutas")) msg += "Prefiera variedades locales resistentes";
+  else if(crop.includes("Hortalizas")) msg += "Buena opción si riego estable y control fitosanitario";
+  else msg += "Adaptar según ciclo y disponibilidad de agua";
+  box.innerHTML = msg;
+};
+
+// init
+function init(){ loadLib(); renderTable(); renderList(); }
+init();
+
+</script>
+</body>
+</html>
